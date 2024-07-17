@@ -1,0 +1,752 @@
+{
+  "configuration" : { },
+  "description" : "Description",
+  "documentation" : { },
+  "id" : 1,
+  "lastModifiedAgent" : "structurizr-javascript",
+  "lastModifiedDate" : "2024-07-17T16:49:00Z",
+  "model" : {
+    "deploymentNodes" : [ {
+      "children" : [ {
+        "children" : [ {
+          "children" : [ {
+            "description" : "10.0.0.0/24",
+            "environment" : "Production",
+            "id" : "8",
+            "infrastructureNodes" : [ {
+              "description" : "Automatically distributes incoming application traffic.",
+              "environment" : "Production",
+              "id" : "9",
+              "name" : "Load Balancer",
+              "properties" : {
+                "structurizr.dsl.identifier" : "loadbalancer",
+                "owner" : "Networking Team",
+                "scheme" : "internet-facing"
+              },
+              "relationships" : [ {
+                "description" : "Forwards requests to",
+                "destinationId" : "18",
+                "id" : "31",
+                "properties" : {
+                  "structurizr.dsl.identifier" : "2e576ccf-4e66-42b9-b741-a48553cf2160"
+                },
+                "sourceId" : "9",
+                "tags" : "Relationship",
+                "technology" : "HTTPS"
+              } ],
+              "tags" : "Element,Infrastructure Node,Load Balancer"
+            }, {
+              "description" : "Enables instances in a private subnet to connect to the internet.",
+              "environment" : "Production",
+              "id" : "10",
+              "name" : "NAT Gateway",
+              "properties" : {
+                "structurizr.dsl.identifier" : "natgateway",
+                "owner" : "Networking Team"
+              },
+              "tags" : "Element,Infrastructure Node,NAT Gateway"
+            }, {
+              "description" : "Highly available and scalable cloud DNS service.",
+              "environment" : "Production",
+              "id" : "11",
+              "name" : "DNS",
+              "properties" : {
+                "structurizr.dsl.identifier" : "dns",
+                "owner" : "Networking Team"
+              },
+              "relationships" : [ {
+                "description" : "Forwards requests to",
+                "destinationId" : "12",
+                "id" : "29",
+                "properties" : {
+                  "structurizr.dsl.identifier" : "6b3330e4-8f0d-41f5-9220-3cfd33ea42f2"
+                },
+                "sourceId" : "11",
+                "tags" : "Relationship",
+                "technology" : "HTTPS"
+              } ],
+              "tags" : "Element,Infrastructure Node,DNS"
+            }, {
+              "description" : "Content Delivery Network to cache static assets.",
+              "environment" : "Production",
+              "id" : "12",
+              "name" : "CDN",
+              "properties" : {
+                "structurizr.dsl.identifier" : "cdn",
+                "owner" : "Networking Team",
+                "distributionId" : "E12345678"
+              },
+              "relationships" : [ {
+                "description" : "Forwards requests to",
+                "destinationId" : "9",
+                "id" : "30",
+                "properties" : {
+                  "structurizr.dsl.identifier" : "e2174731-b9d5-45bc-afae-4e752b5981d7"
+                },
+                "sourceId" : "12",
+                "tags" : "Relationship",
+                "technology" : "HTTPS"
+              } ],
+              "tags" : "Element,Infrastructure Node,CDN"
+            }, {
+              "description" : "Object storage for static content.",
+              "environment" : "Production",
+              "id" : "13",
+              "name" : "Object Storage",
+              "properties" : {
+                "structurizr.dsl.identifier" : "objectstorage",
+                "owner" : "Storage Team",
+                "bucketName" : "businessApp-assets"
+              },
+              "relationships" : [ {
+                "description" : "Serves static content via",
+                "destinationId" : "12",
+                "id" : "33",
+                "properties" : {
+                  "structurizr.dsl.identifier" : "d1b41bbe-1431-4e8c-b959-13f158081f76"
+                },
+                "sourceId" : "13",
+                "tags" : "Relationship"
+              } ],
+              "tags" : "Element,Infrastructure Node,Object Storage"
+            } ],
+            "instances" : "1",
+            "name" : "Public Subnet",
+            "properties" : {
+              "structurizr.dsl.identifier" : "publicsubnet",
+              "availabilityZone" : "us-east-multiple"
+            },
+            "tags" : "Element,Deployment Node,Subnet"
+          }, {
+            "children" : [ {
+              "children" : [ {
+                "children" : [ {
+                  "containerInstances" : [ {
+                    "containerId" : "2",
+                    "deploymentGroups" : [ "Default" ],
+                    "environment" : "Production",
+                    "id" : "18",
+                    "instanceId" : 1,
+                    "properties" : {
+                      "structurizr.dsl.identifier" : "webapplicationpod"
+                    },
+                    "relationships" : [ {
+                      "description" : "Reads from and writes to",
+                      "destinationId" : "21",
+                      "id" : "22",
+                      "linkedRelationshipId" : "4",
+                      "sourceId" : "18",
+                      "technology" : "Database Protocol/SSL"
+                    }, {
+                      "description" : "Sends logs to",
+                      "destinationId" : "27",
+                      "id" : "32",
+                      "properties" : {
+                        "structurizr.dsl.identifier" : "76008ef4-3109-4342-8b95-22334fbdaec8"
+                      },
+                      "sourceId" : "18",
+                      "tags" : "Relationship"
+                    }, {
+                      "description" : "Sends messages to",
+                      "destinationId" : "25",
+                      "id" : "34",
+                      "properties" : {
+                        "structurizr.dsl.identifier" : "23637296-e553-46d4-8a78-3f70ed7d9887"
+                      },
+                      "sourceId" : "18",
+                      "tags" : "Relationship"
+                    }, {
+                      "description" : "Receives notifications from",
+                      "destinationId" : "26",
+                      "id" : "37",
+                      "properties" : {
+                        "structurizr.dsl.identifier" : "715ebd08-904c-4bee-bf02-42d18d3207c3"
+                      },
+                      "sourceId" : "18",
+                      "tags" : "Relationship"
+                    }, {
+                      "description" : "Fetches from and stores to",
+                      "destinationId" : "24",
+                      "id" : "38",
+                      "properties" : {
+                        "structurizr.dsl.identifier" : "0759f603-b0bd-41ad-9382-7488cac6541e"
+                      },
+                      "sourceId" : "18",
+                      "tags" : "Relationship"
+                    }, {
+                      "description" : "Uses roles and policies from",
+                      "destinationId" : "28",
+                      "id" : "41",
+                      "properties" : {
+                        "structurizr.dsl.identifier" : "75386cf1-9a44-42ea-8566-b433e09d2dd3"
+                      },
+                      "sourceId" : "18",
+                      "tags" : "Relationship"
+                    } ],
+                    "tags" : "Container Instance"
+                  } ],
+                  "environment" : "Production",
+                  "id" : "17",
+                  "instances" : "1",
+                  "name" : "Kubernetes Node Group",
+                  "properties" : {
+                    "structurizr.dsl.identifier" : "kubernetesnodegroup"
+                  },
+                  "relationships" : [ {
+                    "description" : "Accesses the internet via",
+                    "destinationId" : "10",
+                    "id" : "40",
+                    "properties" : {
+                      "structurizr.dsl.identifier" : "9dd79447-866c-4bd2-9500-9c5aa9aceb12"
+                    },
+                    "sourceId" : "17",
+                    "tags" : "Relationship"
+                  } ],
+                  "tags" : "Element,Deployment Node,Kubernetes Node Group"
+                } ],
+                "environment" : "Production",
+                "id" : "16",
+                "instances" : "1",
+                "name" : "Kubernetes Cluster",
+                "properties" : {
+                  "structurizr.dsl.identifier" : "kubernetescluster"
+                },
+                "tags" : "Element,Deployment Node,Kubernetes Cluster"
+              } ],
+              "environment" : "Production",
+              "id" : "15",
+              "instances" : "1",
+              "name" : "Kubernetes Service",
+              "properties" : {
+                "structurizr.dsl.identifier" : "kubernetes"
+              },
+              "tags" : "Element,Deployment Node,Kubernetes Service"
+            }, {
+              "children" : [ {
+                "containerInstances" : [ {
+                  "containerId" : "3",
+                  "deploymentGroups" : [ "Default" ],
+                  "environment" : "Production",
+                  "id" : "21",
+                  "instanceId" : 1,
+                  "properties" : {
+                    "structurizr.dsl.identifier" : "databaseinstance"
+                  },
+                  "tags" : "Container Instance"
+                } ],
+                "environment" : "Production",
+                "id" : "20",
+                "instances" : "1",
+                "name" : "Primary Database",
+                "properties" : {
+                  "structurizr.dsl.identifier" : "primarydatabase"
+                },
+                "relationships" : [ {
+                  "description" : "Replicates data to",
+                  "destinationId" : "23",
+                  "id" : "39",
+                  "properties" : {
+                    "structurizr.dsl.identifier" : "e9860de9-bf0b-4746-a549-690f3fa753a8"
+                  },
+                  "sourceId" : "20",
+                  "tags" : "Relationship"
+                }, {
+                  "description" : "Uses roles and policies from",
+                  "destinationId" : "28",
+                  "id" : "42",
+                  "properties" : {
+                    "structurizr.dsl.identifier" : "a8beda59-ea8d-4161-9f5c-df55c21347d1"
+                  },
+                  "sourceId" : "20",
+                  "tags" : "Relationship"
+                } ],
+                "tags" : "Element,Deployment Node,Primary Database Instance"
+              }, {
+                "environment" : "Production",
+                "id" : "23",
+                "instances" : "1",
+                "name" : "Read Replica",
+                "properties" : {
+                  "structurizr.dsl.identifier" : "readreplica",
+                  "replicaCount" : "2"
+                },
+                "tags" : "Element,Deployment Node,Read Replica"
+              } ],
+              "environment" : "Production",
+              "id" : "19",
+              "instances" : "1",
+              "name" : "Relational Database Service",
+              "properties" : {
+                "structurizr.dsl.identifier" : "relationaldatabase"
+              },
+              "tags" : "Element,Deployment Node,Relational Database Service"
+            } ],
+            "description" : "10.0.1.0/24",
+            "environment" : "Production",
+            "id" : "14",
+            "infrastructureNodes" : [ {
+              "description" : "In-memory data store and cache service.",
+              "environment" : "Production",
+              "id" : "24",
+              "name" : "Cache",
+              "properties" : {
+                "structurizr.dsl.identifier" : "cache",
+                "nodeType" : "medium"
+              },
+              "tags" : "Element,Infrastructure Node,Cache"
+            }, {
+              "description" : "Message queuing service.",
+              "environment" : "Production",
+              "id" : "25",
+              "name" : "Message Queue",
+              "properties" : {
+                "structurizr.dsl.identifier" : "messagequeue",
+                "queueName" : "businessApp-queue"
+              },
+              "relationships" : [ {
+                "description" : "Receives messages from",
+                "destinationId" : "18",
+                "id" : "35",
+                "properties" : {
+                  "structurizr.dsl.identifier" : "1179e337-5e13-4692-bd3d-2418ad18d1c3"
+                },
+                "sourceId" : "25",
+                "tags" : "Relationship"
+              } ],
+              "tags" : "Element,Infrastructure Node,Message Queue"
+            }, {
+              "description" : "Notification service.",
+              "environment" : "Production",
+              "id" : "26",
+              "name" : "Notification Service",
+              "properties" : {
+                "structurizr.dsl.identifier" : "notificationservice",
+                "topicName" : "businessApp-topic"
+              },
+              "relationships" : [ {
+                "description" : "Sends notifications to",
+                "destinationId" : "18",
+                "id" : "36",
+                "properties" : {
+                  "structurizr.dsl.identifier" : "d829609e-b249-4d50-8ffc-9a8be9581448"
+                },
+                "sourceId" : "26",
+                "tags" : "Relationship"
+              } ],
+              "tags" : "Element,Infrastructure Node,Notification Service"
+            }, {
+              "description" : "Monitoring and logging service.",
+              "environment" : "Production",
+              "id" : "27",
+              "name" : "Monitoring",
+              "properties" : {
+                "structurizr.dsl.identifier" : "monitoring"
+              },
+              "tags" : "Element,Infrastructure Node,Monitoring"
+            }, {
+              "description" : "Identity and Access Management service.",
+              "environment" : "Production",
+              "id" : "28",
+              "name" : "Identity and Access Management",
+              "properties" : {
+                "structurizr.dsl.identifier" : "identityaccessmanagement"
+              },
+              "tags" : "Element,Infrastructure Node,Identity and Access Management"
+            } ],
+            "instances" : "1",
+            "name" : "Private Subnet",
+            "properties" : {
+              "structurizr.dsl.identifier" : "privatesubnet",
+              "availabilityZone" : "us-east-1b"
+            },
+            "tags" : "Element,Deployment Node,Subnet"
+          } ],
+          "environment" : "Production",
+          "id" : "7",
+          "instances" : "1",
+          "name" : "Network",
+          "properties" : {
+            "structurizr.dsl.identifier" : "ipscheme",
+            "networkAdmin" : "Network Team",
+            "cidr" : "10.0.0.0/16"
+          },
+          "tags" : "Element,Deployment Node,ipScheme"
+        } ],
+        "environment" : "Production",
+        "id" : "6",
+        "instances" : "1",
+        "name" : "Region",
+        "properties" : {
+          "structurizr.dsl.identifier" : "region"
+        },
+        "tags" : "Element,Deployment Node,Region"
+      } ],
+      "environment" : "Production",
+      "id" : "5",
+      "instances" : "1",
+      "name" : "Cloud Provider",
+      "properties" : {
+        "structurizr.dsl.identifier" : "4aef076b-f511-4ea4-98f2-14565ef7cfc8",
+        "owner" : "Cloud Team"
+      },
+      "tags" : "Element,Deployment Node,Cloud"
+    } ],
+    "softwareSystems" : [ {
+      "containers" : [ {
+        "description" : "Allows customers to view and manage information regarding their banking products.",
+        "documentation" : { },
+        "id" : "2",
+        "name" : "Web Application",
+        "properties" : {
+          "structurizr.dsl.identifier" : "businessapp.webapplication",
+          "owner" : "Frontend Team",
+          "repository" : "https://github.com/example/businessApp-webapp",
+          "region" : "us-east",
+          "instanceType" : "medium"
+        },
+        "relationships" : [ {
+          "description" : "Reads from and writes to",
+          "destinationId" : "3",
+          "id" : "4",
+          "properties" : {
+            "structurizr.dsl.identifier" : "79712d9f-ab8d-4972-9ebb-90fdea99ce7e"
+          },
+          "sourceId" : "2",
+          "tags" : "Relationship",
+          "technology" : "Database Protocol/SSL"
+        } ],
+        "tags" : "Element,Container,Application",
+        "technology" : "Java and Spring Boot"
+      }, {
+        "description" : "Stores information regarding the customer banking products.",
+        "documentation" : { },
+        "id" : "3",
+        "name" : "Database",
+        "properties" : {
+          "structurizr.dsl.identifier" : "businessapp.database",
+          "owner" : "Database Team",
+          "dbVersion" : "8.0",
+          "storageSize" : "20GB"
+        },
+        "tags" : "Element,Container,Database",
+        "technology" : "Relational database schema"
+      } ],
+      "description" : "Allows customers to view and manage information regarding their banking products.",
+      "documentation" : { },
+      "id" : "1",
+      "location" : "Unspecified",
+      "name" : "Bank Application",
+      "properties" : {
+        "structurizr.dsl.identifier" : "businessapp",
+        "owner" : "DevOps Team",
+        "criticality" : "High"
+      },
+      "tags" : "Element,Software System"
+    } ]
+  },
+  "name" : "Name",
+  "properties" : {
+    "structurizr.dsl" : "d29ya3NwYWNlIGV4dGVuZHMgY29tbW9uLWVsZW1lbnRzLmRzbCB7CiAgICBtb2RlbCB7CiAgICAgICAgcHJvZHVjdGlvbiA9IGRlcGxveW1lbnRFbnZpcm9ubWVudCAiUHJvZHVjdGlvbiIgewogICAgICAgICAgICBkZXBsb3ltZW50Tm9kZSAiQ2xvdWQgUHJvdmlkZXIiIHsKICAgICAgICAgICAgICAgIHRhZ3MgIkNsb3VkIgogICAgICAgICAgICAgICAgcHJvcGVydGllcyB7CiAgICAgICAgICAgICAgICAgICAgIm93bmVyIiAiQ2xvdWQgVGVhbSIKICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgCiAgICAgICAgICAgICAgICByZWdpb24gPSBkZXBsb3ltZW50Tm9kZSAiUmVnaW9uIiB7CiAgICAgICAgICAgICAgICAgICAgdGFncyAiUmVnaW9uIgogICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICBpcFNjaGVtZSA9IGRlcGxveW1lbnROb2RlICJOZXR3b3JrIiB7CiAgICAgICAgICAgICAgICAgICAgICAgIHRhZ3MgImlwU2NoZW1lIgogICAgICAgICAgICAgICAgICAgICAgICBwcm9wZXJ0aWVzIHsKICAgICAgICAgICAgICAgICAgICAgICAgICAgICJuZXR3b3JrQWRtaW4iICJOZXR3b3JrIFRlYW0iCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAiY2lkciIgIjEwLjAuMC4wLzE2IgogICAgICAgICAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICBwdWJsaWNTdWJuZXQgPSBkZXBsb3ltZW50Tm9kZSAiUHVibGljIFN1Ym5ldCIgIjEwLjAuMC4wLzI0IiB7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICB0YWdzICJTdWJuZXQiCiAgICAgICAgICAgICAgICAgICAgICAgICAgICBwcm9wZXJ0aWVzIHsKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAiYXZhaWxhYmlsaXR5Wm9uZSIgInVzLWVhc3QtbXVsdGlwbGUiCiAgICAgICAgICAgICAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgbG9hZEJhbGFuY2VyID0gaW5mcmFzdHJ1Y3R1cmVOb2RlICJMb2FkIEJhbGFuY2VyIiAiQXV0b21hdGljYWxseSBkaXN0cmlidXRlcyBpbmNvbWluZyBhcHBsaWNhdGlvbiB0cmFmZmljLiIgewogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHRhZ3MgIkxvYWQgQmFsYW5jZXIiCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcHJvcGVydGllcyB7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICJvd25lciIgIk5ldHdvcmtpbmcgVGVhbSIKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgInNjaGVtZSIgImludGVybmV0LWZhY2luZyIKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgbmF0R2F0ZXdheSA9IGluZnJhc3RydWN0dXJlTm9kZSAiTkFUIEdhdGV3YXkiICJFbmFibGVzIGluc3RhbmNlcyBpbiBhIHByaXZhdGUgc3VibmV0IHRvIGNvbm5lY3QgdG8gdGhlIGludGVybmV0LiIgewogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHRhZ3MgIk5BVCBHYXRld2F5IgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHByb3BlcnRpZXMgewogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAib3duZXIiICJOZXR3b3JraW5nIFRlYW0iCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgICAgICAgICAgICAgfQogICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgIGRucyA9IGluZnJhc3RydWN0dXJlTm9kZSAiRE5TIiAiSGlnaGx5IGF2YWlsYWJsZSBhbmQgc2NhbGFibGUgY2xvdWQgRE5TIHNlcnZpY2UuIiB7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdGFncyAiRE5TIgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHByb3BlcnRpZXMgewogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAib3duZXIiICJOZXR3b3JraW5nIFRlYW0iCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgICAgICAgICAgICAgfQogICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgIGNkbiA9IGluZnJhc3RydWN0dXJlTm9kZSAiQ0ROIiAiQ29udGVudCBEZWxpdmVyeSBOZXR3b3JrIHRvIGNhY2hlIHN0YXRpYyBhc3NldHMuIiB7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdGFncyAiQ0ROIgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHByb3BlcnRpZXMgewogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAib3duZXIiICJOZXR3b3JraW5nIFRlYW0iCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICJkaXN0cmlidXRpb25JZCIgIkUxMjM0NTY3OCIKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgb2JqZWN0U3RvcmFnZSA9IGluZnJhc3RydWN0dXJlTm9kZSAiT2JqZWN0IFN0b3JhZ2UiICJPYmplY3Qgc3RvcmFnZSBmb3Igc3RhdGljIGNvbnRlbnQuIiB7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdGFncyAiT2JqZWN0IFN0b3JhZ2UiCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcHJvcGVydGllcyB7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICJvd25lciIgIlN0b3JhZ2UgVGVhbSIKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgImJ1Y2tldE5hbWUiICJidXNpbmVzc0FwcC1hc3NldHMiCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICBwcml2YXRlU3VibmV0ID0gZGVwbG95bWVudE5vZGUgIlByaXZhdGUgU3VibmV0IiAiMTAuMC4xLjAvMjQiIHsKICAgICAgICAgICAgICAgICAgICAgICAgICAgIHRhZ3MgIlN1Ym5ldCIKICAgICAgICAgICAgICAgICAgICAgICAgICAgIHByb3BlcnRpZXMgewogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICJhdmFpbGFiaWxpdHlab25lIiAidXMtZWFzdC0xYiIKICAgICAgICAgICAgICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICBrdWJlcm5ldGVzID0gZGVwbG95bWVudE5vZGUgIkt1YmVybmV0ZXMgU2VydmljZSIgewogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHRhZ3MgIkt1YmVybmV0ZXMgU2VydmljZSIKICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAga3ViZXJuZXRlc0NsdXN0ZXIgPSBkZXBsb3ltZW50Tm9kZSAiS3ViZXJuZXRlcyBDbHVzdGVyIiB7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHRhZ3MgIkt1YmVybmV0ZXMgQ2x1c3RlciIKICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGt1YmVybmV0ZXNOb2RlR3JvdXAgPSBkZXBsb3ltZW50Tm9kZSAiS3ViZXJuZXRlcyBOb2RlIEdyb3VwIiB7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB0YWdzICJLdWJlcm5ldGVzIE5vZGUgR3JvdXAiCiAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgd2ViQXBwbGljYXRpb25Qb2QgPSBjb250YWluZXJJbnN0YW5jZSBidXNpbmVzc0FwcC53ZWJBcHBsaWNhdGlvbgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgICAgICAgICAgICAgfQogICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgIHJlbGF0aW9uYWxEYXRhYmFzZSA9IGRlcGxveW1lbnROb2RlICJSZWxhdGlvbmFsIERhdGFiYXNlIFNlcnZpY2UiIHsKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB0YWdzICJSZWxhdGlvbmFsIERhdGFiYXNlIFNlcnZpY2UiCiAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHByaW1hcnlEYXRhYmFzZSA9IGRlcGxveW1lbnROb2RlICJQcmltYXJ5IERhdGFiYXNlIiB7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHRhZ3MgIlByaW1hcnkgRGF0YWJhc2UgSW5zdGFuY2UiCiAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBkYXRhYmFzZUluc3RhbmNlID0gY29udGFpbmVySW5zdGFuY2UgYnVzaW5lc3NBcHAuZGF0YWJhc2UKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHJlYWRSZXBsaWNhID0gZGVwbG95bWVudE5vZGUgIlJlYWQgUmVwbGljYSIgewogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB0YWdzICJSZWFkIFJlcGxpY2EiCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHByb3BlcnRpZXMgewogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgInJlcGxpY2FDb3VudCIgIjIiCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgY2FjaGUgPSBpbmZyYXN0cnVjdHVyZU5vZGUgIkNhY2hlIiAiSW4tbWVtb3J5IGRhdGEgc3RvcmUgYW5kIGNhY2hlIHNlcnZpY2UuIiB7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdGFncyAiQ2FjaGUiCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcHJvcGVydGllcyB7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICJub2RlVHlwZSIgIm1lZGl1bSIKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgbWVzc2FnZVF1ZXVlID0gaW5mcmFzdHJ1Y3R1cmVOb2RlICJNZXNzYWdlIFF1ZXVlIiAiTWVzc2FnZSBxdWV1aW5nIHNlcnZpY2UuIiB7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdGFncyAiTWVzc2FnZSBRdWV1ZSIKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBwcm9wZXJ0aWVzIHsKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgInF1ZXVlTmFtZSIgImJ1c2luZXNzQXBwLXF1ZXVlIgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICBub3RpZmljYXRpb25TZXJ2aWNlID0gaW5mcmFzdHJ1Y3R1cmVOb2RlICJOb3RpZmljYXRpb24gU2VydmljZSIgIk5vdGlmaWNhdGlvbiBzZXJ2aWNlLiIgewogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHRhZ3MgIk5vdGlmaWNhdGlvbiBTZXJ2aWNlIgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHByb3BlcnRpZXMgewogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAidG9waWNOYW1lIiAiYnVzaW5lc3NBcHAtdG9waWMiCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgICAgICAgICAgICAgfQogICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgIG1vbml0b3JpbmcgPSBpbmZyYXN0cnVjdHVyZU5vZGUgIk1vbml0b3JpbmciICJNb25pdG9yaW5nIGFuZCBsb2dnaW5nIHNlcnZpY2UuIiB7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdGFncyAiTW9uaXRvcmluZyIKICAgICAgICAgICAgICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICBpZGVudGl0eUFjY2Vzc01hbmFnZW1lbnQgPSBpbmZyYXN0cnVjdHVyZU5vZGUgIklkZW50aXR5IGFuZCBBY2Nlc3MgTWFuYWdlbWVudCIgIklkZW50aXR5IGFuZCBBY2Nlc3MgTWFuYWdlbWVudCBzZXJ2aWNlLiIgewogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHRhZ3MgIklkZW50aXR5IGFuZCBBY2Nlc3MgTWFuYWdlbWVudCIKICAgICAgICAgICAgICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgICAgICAgICAgfQogICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgZG5zIC0+IGNkbiAiRm9yd2FyZHMgcmVxdWVzdHMgdG8iICJIVFRQUyIKICAgICAgICAgICAgICAgICAgICAgICAgY2RuIC0+IGxvYWRCYWxhbmNlciAiRm9yd2FyZHMgcmVxdWVzdHMgdG8iICJIVFRQUyIKICAgICAgICAgICAgICAgICAgICAgICAgbG9hZEJhbGFuY2VyIC0+IHdlYkFwcGxpY2F0aW9uUG9kICJGb3J3YXJkcyByZXF1ZXN0cyB0byIgIkhUVFBTIgogICAgICAgICAgICAgICAgICAgICAgICB3ZWJBcHBsaWNhdGlvblBvZCAtPiBtb25pdG9yaW5nICJTZW5kcyBsb2dzIHRvIgogICAgICAgICAgICAgICAgICAgICAgICBvYmplY3RTdG9yYWdlIC0+IGNkbiAiU2VydmVzIHN0YXRpYyBjb250ZW50IHZpYSIKICAgICAgICAgICAgICAgICAgICAgICAgd2ViQXBwbGljYXRpb25Qb2QgLT4gbWVzc2FnZVF1ZXVlICJTZW5kcyBtZXNzYWdlcyB0byIKICAgICAgICAgICAgICAgICAgICAgICAgbWVzc2FnZVF1ZXVlIC0+IHdlYkFwcGxpY2F0aW9uUG9kICJSZWNlaXZlcyBtZXNzYWdlcyBmcm9tIgogICAgICAgICAgICAgICAgICAgICAgICBub3RpZmljYXRpb25TZXJ2aWNlIC0+IHdlYkFwcGxpY2F0aW9uUG9kICJTZW5kcyBub3RpZmljYXRpb25zIHRvIgogICAgICAgICAgICAgICAgICAgICAgICB3ZWJBcHBsaWNhdGlvblBvZCAtPiBub3RpZmljYXRpb25TZXJ2aWNlICJSZWNlaXZlcyBub3RpZmljYXRpb25zIGZyb20iCiAgICAgICAgICAgICAgICAgICAgICAgIHdlYkFwcGxpY2F0aW9uUG9kIC0+IGNhY2hlICJGZXRjaGVzIGZyb20gYW5kIHN0b3JlcyB0byIKICAgICAgICAgICAgICAgICAgICAgICAgcHJpbWFyeURhdGFiYXNlIC0+IHJlYWRSZXBsaWNhICJSZXBsaWNhdGVzIGRhdGEgdG8iCiAgICAgICAgICAgICAgICAgICAgICAgIGt1YmVybmV0ZXNOb2RlR3JvdXAgLT4gbmF0R2F0ZXdheSAiQWNjZXNzZXMgdGhlIGludGVybmV0IHZpYSIKICAgICAgICAgICAgICAgICAgICAgICAgd2ViQXBwbGljYXRpb25Qb2QgLT4gaWRlbnRpdHlBY2Nlc3NNYW5hZ2VtZW50ICJVc2VzIHJvbGVzIGFuZCBwb2xpY2llcyBmcm9tIgogICAgICAgICAgICAgICAgICAgICAgICBwcmltYXJ5RGF0YWJhc2UgLT4gaWRlbnRpdHlBY2Nlc3NNYW5hZ2VtZW50ICJVc2VzIHJvbGVzIGFuZCBwb2xpY2llcyBmcm9tIgogICAgICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgfQogICAgICAgIH0KICAgIH0KCiAgICB2aWV3cyB7CiAgICAgICAgZGVwbG95bWVudCBidXNpbmVzc0FwcCAiUHJvZHVjdGlvbiIgIkdlbmVyaWNJbmZyYXN0cnVjdHVyZURlcGxveW1lbnQiIHsKICAgICAgICAgICAgaW5jbHVkZSAqCgogICAgICAgICAgICBhbmltYXRpb24gewogICAgICAgICAgICAgICAgZG5zCiAgICAgICAgICAgICAgICBjZG4KICAgICAgICAgICAgICAgIGxvYWRCYWxhbmNlcgogICAgICAgICAgICAgICAgcHVibGljU3VibmV0CiAgICAgICAgICAgICAgICBwcml2YXRlU3VibmV0CiAgICAgICAgICAgICAgICB3ZWJBcHBsaWNhdGlvblBvZAogICAgICAgICAgICAgICAgcHJpbWFyeURhdGFiYXNlCiAgICAgICAgICAgICAgICByZWFkUmVwbGljYQogICAgICAgICAgICAgICAgZGF0YWJhc2VJbnN0YW5jZQogICAgICAgICAgICAgICAgb2JqZWN0U3RvcmFnZQogICAgICAgICAgICAgICAgY2FjaGUKICAgICAgICAgICAgICAgIG1lc3NhZ2VRdWV1ZQogICAgICAgICAgICAgICAgbm90aWZpY2F0aW9uU2VydmljZQogICAgICAgICAgICAgICAgbW9uaXRvcmluZwogICAgICAgICAgICAgICAgaWRlbnRpdHlBY2Nlc3NNYW5hZ2VtZW50CiAgICAgICAgICAgICAgICBuYXRHYXRld2F5CiAgICAgICAgICAgICAgICBpcFNjaGVtZQogICAgICAgICAgICB9CiAgICAgICAgfQogICAgfQp9Cg=="
+  },
+  "views" : {
+    "configuration" : {
+      "branding" : { },
+      "lastSavedView" : "Container-001",
+      "metadataSymbols" : "SquareBrackets",
+      "styles" : {
+        "elements" : [ {
+          "background" : "#ffffff",
+          "shape" : "RoundedBox",
+          "tag" : "Element"
+        }, {
+          "background" : "#ffffff",
+          "tag" : "Container"
+        }, {
+          "background" : "#ffffff",
+          "tag" : "Application"
+        }, {
+          "shape" : "Cylinder",
+          "tag" : "Database"
+        } ]
+      },
+      "terminology" : { },
+      "themes" : [ "https://static.structurizr.com/themes/amazon-web-services-2023.01.31/theme.json", "https://static.structurizr.com/themes/google-cloud-platform-v1.5/theme.json", "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/theme.json", "https://static.structurizr.com/themes/kubernetes-v0.3/theme.json" ]
+    },
+    "containerViews" : [ {
+      "automaticLayout" : {
+        "applied" : true,
+        "edgeSeparation" : 0,
+        "implementation" : "Graphviz",
+        "nodeSeparation" : 300,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 300,
+        "vertices" : false
+      },
+      "dimensions" : {
+        "height" : 811,
+        "width" : 1640
+      },
+      "elements" : [ {
+        "id" : "2",
+        "x" : 220,
+        "y" : 220
+      }, {
+        "id" : "3",
+        "x" : 970,
+        "y" : 220
+      } ],
+      "externalSoftwareSystemBoundariesVisible" : false,
+      "generatedKey" : true,
+      "key" : "Container-001",
+      "order" : 2,
+      "relationships" : [ {
+        "id" : "4"
+      } ],
+      "softwareSystemId" : "1"
+    } ],
+    "deploymentViews" : [ {
+      "animations" : [ {
+        "elements" : [ "11", "5", "6", "7", "8" ],
+        "order" : 1
+      }, {
+        "elements" : [ "12" ],
+        "order" : 2,
+        "relationships" : [ "29" ]
+      }, {
+        "elements" : [ "9" ],
+        "order" : 3,
+        "relationships" : [ "30" ]
+      }, {
+        "elements" : [ "14", "15", "16", "17", "18" ],
+        "order" : 4,
+        "relationships" : [ "31" ]
+      }, {
+        "elements" : [ "19", "20", "21" ],
+        "order" : 5,
+        "relationships" : [ "22" ]
+      }, {
+        "elements" : [ "13" ],
+        "order" : 6,
+        "relationships" : [ "33" ]
+      }, {
+        "elements" : [ "24" ],
+        "order" : 7,
+        "relationships" : [ "38" ]
+      }, {
+        "elements" : [ "25" ],
+        "order" : 8,
+        "relationships" : [ "34", "35" ]
+      }, {
+        "elements" : [ "26" ],
+        "order" : 9,
+        "relationships" : [ "36", "37" ]
+      }, {
+        "elements" : [ "27" ],
+        "order" : 10,
+        "relationships" : [ "32" ]
+      }, {
+        "elements" : [ "28" ],
+        "order" : 11,
+        "relationships" : [ "41", "42" ]
+      }, {
+        "elements" : [ "10" ],
+        "order" : 12,
+        "relationships" : [ "40" ]
+      } ],
+      "dimensions" : {
+        "height" : 3839,
+        "width" : 5269
+      },
+      "elements" : [ {
+        "id" : "5",
+        "x" : 175,
+        "y" : 175
+      }, {
+        "id" : "6",
+        "x" : 175,
+        "y" : 175
+      }, {
+        "id" : "7",
+        "x" : 175,
+        "y" : 175
+      }, {
+        "id" : "8",
+        "x" : 175,
+        "y" : 175
+      }, {
+        "id" : "9",
+        "x" : 1780,
+        "y" : 1272
+      }, {
+        "id" : "10",
+        "x" : 1005,
+        "y" : 510
+      }, {
+        "id" : "11",
+        "x" : 280,
+        "y" : 1310
+      }, {
+        "id" : "12",
+        "x" : 1030,
+        "y" : 1310
+      }, {
+        "id" : "13",
+        "x" : 1036,
+        "y" : 1901
+      }, {
+        "id" : "14",
+        "x" : 175,
+        "y" : 175
+      }, {
+        "id" : "15",
+        "x" : 175,
+        "y" : 175
+      }, {
+        "id" : "16",
+        "x" : 175,
+        "y" : 175
+      }, {
+        "id" : "17",
+        "x" : 175,
+        "y" : 175
+      }, {
+        "id" : "18",
+        "x" : 2783,
+        "y" : 1281
+      }, {
+        "id" : "19",
+        "x" : 175,
+        "y" : 175
+      }, {
+        "id" : "20",
+        "x" : 175,
+        "y" : 175
+      }, {
+        "id" : "21",
+        "x" : 3788,
+        "y" : 2793
+      }, {
+        "id" : "24",
+        "x" : 3788,
+        "y" : 2181
+      }, {
+        "id" : "25",
+        "x" : 3788,
+        "y" : 1581
+      }, {
+        "id" : "26",
+        "x" : 3788,
+        "y" : 981
+      }, {
+        "id" : "27",
+        "x" : 3788,
+        "y" : 381
+      }, {
+        "id" : "28",
+        "x" : 4538,
+        "y" : 1435
+      } ],
+      "environment" : "Production",
+      "key" : "GenericInfrastructureDeployment",
+      "order" : 3,
+      "relationships" : [ {
+        "id" : "22",
+        "vertices" : [ {
+          "x" : 3579,
+          "y" : 2776
+        } ]
+      }, {
+        "id" : "29"
+      }, {
+        "id" : "30"
+      }, {
+        "id" : "31"
+      }, {
+        "id" : "32",
+        "vertices" : [ {
+          "x" : 3579,
+          "y" : 831
+        } ]
+      }, {
+        "id" : "33"
+      }, {
+        "id" : "34",
+        "vertices" : [ {
+          "x" : 3490,
+          "y" : 1680
+        } ]
+      }, {
+        "id" : "35",
+        "vertices" : [ {
+          "x" : 3565,
+          "y" : 1515
+        } ]
+      }, {
+        "id" : "36",
+        "vertices" : [ {
+          "x" : 3467,
+          "y" : 1137
+        } ]
+      }, {
+        "id" : "37",
+        "vertices" : [ {
+          "x" : 3565,
+          "y" : 1295
+        } ]
+      }, {
+        "id" : "38",
+        "vertices" : [ {
+          "x" : 3579,
+          "y" : 2031
+        } ]
+      }, {
+        "id" : "40",
+        "vertices" : [ {
+          "x" : 2400,
+          "y" : 675
+        } ]
+      }, {
+        "id" : "41",
+        "vertices" : [ {
+          "x" : 3579,
+          "y" : 231
+        }, {
+          "x" : 4446,
+          "y" : 231
+        } ]
+      }, {
+        "id" : "42",
+        "vertices" : [ {
+          "x" : 4705,
+          "y" : 2970
+        } ]
+      } ],
+      "softwareSystemId" : "1"
+    } ],
+    "systemContextViews" : [ {
+      "automaticLayout" : {
+        "applied" : true,
+        "edgeSeparation" : 0,
+        "implementation" : "Graphviz",
+        "nodeSeparation" : 300,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 300,
+        "vertices" : false
+      },
+      "dimensions" : {
+        "height" : 700,
+        "width" : 850
+      },
+      "elements" : [ {
+        "id" : "1",
+        "x" : 200,
+        "y" : 200
+      } ],
+      "enterpriseBoundaryVisible" : true,
+      "generatedKey" : true,
+      "key" : "SystemContext-001",
+      "order" : 1,
+      "softwareSystemId" : "1"
+    } ]
+  }
+}

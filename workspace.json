@@ -4,7 +4,7 @@
   "documentation" : { },
   "id" : 1,
   "lastModifiedAgent" : "structurizr-javascript",
-  "lastModifiedDate" : "2024-07-17T16:49:00Z",
+  "lastModifiedDate" : "2024-07-17T17:43:36Z",
   "model" : {
     "deploymentNodes" : [ {
       "children" : [ {
@@ -451,7 +451,7 @@
   "views" : {
     "configuration" : {
       "branding" : { },
-      "lastSavedView" : "Container-001",
+      "lastSavedView" : "GenericInfrastructureDeployment",
       "metadataSymbols" : "SquareBrackets",
       "styles" : {
         "elements" : [ {
@@ -643,8 +643,8 @@
         "y" : 381
       }, {
         "id" : "28",
-        "x" : 4538,
-        "y" : 1435
+        "x" : 4605,
+        "y" : 1830
       } ],
       "environment" : "Production",
       "key" : "GenericInfrastructureDeployment",
@@ -715,11 +715,7 @@
           "y" : 231
         } ]
       }, {
-        "id" : "42",
-        "vertices" : [ {
-          "x" : 4705,
-          "y" : 2970
-        } ]
+        "id" : "42"
       } ],
       "softwareSystemId" : "1"
     } ],
